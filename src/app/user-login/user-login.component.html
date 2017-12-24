@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-12 well">
+      <form>
+        <h2>Login</h2>
+        <div class="form-group">
+          <label for="username">Nombre de Usuario</label>
+          <input type="text" name="username" id="username" placeholder="Introduce tu nombre de usuario"
+          class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="pass">Contraseña</label>
+          <input type="password" placeholder="Contraseña" class="form-control">
+        </div>
+        <button class="btn btn-success">Ingresar</button>
+      </form>
+      <h2>Ingresa con tus redes sociales</h2>
+      <button class="btn btn-danger" (click)="loginGoogle()"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i></button>
+      <button class="btn btn-info" (click)="loginTwitter()"><i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></button>
+      <button class="btn btn-primary" (click)="loginFb()"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></button>
+    </div>
+    <div id="userData">
+      <h3 *ngIf="user.displayName != null">Bienvenido {{ user.displayName }}</h3>
+      <img [src]="user.photoURL" class="photo" *ngIf="user.photoURL != null">
+    </div>
+  </div>
+</div>

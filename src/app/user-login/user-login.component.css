@@ -1,0 +1,21 @@
+form , .well{
+    margin-top: 30px;
+    font-family: 'Lobster', cursive;
+}
+.well h2 {
+    color: #379995;
+}
+
+.well label {
+    color: #87CCC9;
+}
+
+.photo {
+    width: 50px;
+    border-radius: 100%;
+}
+
+#userData {
+    font-family: 'Lobster', cursive;
+    color: #379995;
+}
