@@ -20,18 +20,10 @@ export class AuthenticatioServiceService {
       .then(res => {
         this.user = res.additionalUserInfo.profile;
         console.log(res);
-        swal({
-          title: 'Bienvenido',
-          type: 'success',
-          html: `<img src=${this.user.profile_image_url} style= 'width: 50px'><h2>${this.user.name}</h2>`
-        });
+        this.saludo(this.user.profile_image_url_https, this.user.name);
       })
       .catch(error => {
-        swal({
-          title: 'Error!!',
-          type: 'error',
-          text: `${error}`
-        });
+        this.error(error);
       });
   }
 
@@ -40,39 +32,53 @@ export class AuthenticatioServiceService {
       .then(res => {
         this.user = res.additionalUserInfo.profile;
         console.log(res);
-        swal({
-          title: 'Bienvenido',
-          type: 'success',
-          html: `<img src=${this.user.picture.data.url} style= 'width: 50px'><h2>${this.user.name}</h2>`
-        });
+        const saludo = this.user.gender === 'male' ? 'Bienvenido' : 'Bienvenida';
+        this.saludo(this.user.picture.data.url, this.user.name, saludo);
       })
       .catch(error => {
-        swal({
-          title: 'Error!!',
-          type: 'error',
-          text: `${error}`
-        });
+        this.error(error);
       });
   }
 
   public loginGoogle() {
-    return this.afAuth.auth.signInWithPopup(this.googleProvider)
+    if (navigator.platform.indexOf('Android') >= 0) {
+      return this.afAuth.auth.signInWithRedirect(this.googleProvider)
+        .then(res => {
+          this.user = res.additionalUserInfo.profile;
+          const saludo = this.user.gender === 'male' ? 'Bienvenido' : 'Bienvenida';
+          this.saludo(this.user.picture, this.user.name, saludo);
+        })
+        .catch(error => {
+          this.error(error);
+        });
+    } else {
+      return this.afAuth.auth.signInWithPopup(this.googleProvider)
       .then((res) => {
         this.user = res.additionalUserInfo.profile;
         console.log(res);
-        swal({
-          title: 'Bienvenido',
-          type: 'success',
-          html: `<img src=${this.user.picture} style= 'width: 50px'><h2>${this.user.name}</h2>`
-        });
+        const saludo = this.user.gender === 'male' ? 'Bienvenido' : 'Bienvenida';
+        this.saludo(this.user.picture, this.user.name, saludo);
       })
       .catch(error => {
-        swal({
-          title: 'Error!!',
-          type: 'error',
-          text: `${error}`
-        });
+        this.error(error);
       });
+    }
+  }
+
+  saludo(imagen, nombre, saludo = 'Bienvenido') {
+    swal({
+      title: `${saludo}`,
+      type: 'success',
+      html: `<img src=${imagen} style= 'width: 50px'><h2>${nombre}</h2>`
+    });
+  }
+
+  error(err) {
+    swal({
+      title: 'Error!!',
+      type: 'error',
+      text: `${err}`
+    });
   }
 
 }
