@@ -13,6 +13,7 @@ export class UserLoginComponent implements OnInit {
    }
 
   getUser() {
+    this.autenticacion.userState();
   }
 
   loginGoogle() {
